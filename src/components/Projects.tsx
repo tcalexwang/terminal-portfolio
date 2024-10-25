@@ -98,11 +98,11 @@ export default function Projects({ mode, onSelect }: Props) {
                     <p className="text-green-400 text-sm mt-1">{project.description}</p>
                   </div>
                   <div className="flex gap-2">
-                    {project.github && (
+                    {/* {project.github && (
                       <a href={project.github} target="_blank" rel="noopener noreferrer" className="hover:text-green-300">
                         <Github className="w-4 h-4" />
                       </a>
-                    )}
+                    )} */}
                     {project.demo && (
                       <a href={project.demo} target="_blank" rel="noopener noreferrer" className="hover:text-green-300">
                         <ExternalLink className="w-4 h-4" />
