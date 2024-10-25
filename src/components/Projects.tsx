@@ -4,26 +4,29 @@ import { ChevronRight, Github, ExternalLink } from 'lucide-react';
 const projects = [
   {
     id: 1,
-    name: 'Project Alpha',
-    description: 'A real-time collaboration platform built with React and WebSocket',
-    tech: ['React', 'Node.js', 'WebSocket', 'PostgreSQL'],
-    github: 'https://github.com',
-    demo: 'https://example.com'
+    name: 'AI Video Enhancement(Backend)',
+    description: 'In an unicorn AI company',
+    tech: ['Golang', 'Docker', 'gRPC', 'MySQL'],
   },
   {
     id: 2,
-    name: 'Beta Analytics',
-    description: 'Data visualization dashboard for business metrics',
-    tech: ['Vue.js', 'D3.js', 'Express', 'MongoDB'],
-    github: 'https://github.com'
+    name: 'AI Image Dataset Annotation Tool',
+    description: 'In an unicorn AI company',
+    tech: ['React', 'CanvasJS'],
   },
   {
     id: 3,
-    name: 'DevTools X',
-    description: 'Collection of developer productivity tools',
-    tech: ['TypeScript', 'Electron', 'React'],
-    github: 'https://github.com',
-    demo: 'https://example.com'
+    name: 'Yeah! A Dress-Up Game!',
+    description: 'A collab with Maria Cai, showcasing a series of illustration art',
+    tech: ['Next.js', 'TypeScript', 'TailwindCSS', 'PostgreSQL', 'Drizzle ORM'],
+    demo: 'https://yeah-dressup.vercel.app/'
+  },
+  {
+    id: 4,
+    name: 'Movie Blind Box',
+    description: 'A community-driven movie recommendation platform',
+    tech: ['Next.js', 'TypeScript', 'TailwindCSS', 'PostgreSQL', 'Prisma ORM'],
+    demo: 'https://movie-blindbox.us'
   }
 ];
 
