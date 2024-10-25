@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { User, Code, Heart, Mail, Command, Menu } from 'lucide-react';
+import { User, Code, Heart, Mail, Command, Menu, BracesIcon, AppleIcon } from 'lucide-react';
 import About from './components/About';
 import Projects from './components/Projects';
 import Interests from './components/Interests';
@@ -74,7 +74,7 @@ function App() {
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center gap-2 mb-4 border-b border-green-500 pb-2">
           <Command className="w-6 h-6" />
-          <h1 className="text-xl">~/portfolio</h1>
+          <h1 className="text-xl">~/alex-wang-portfolio</h1>
           <div className="hidden sm:block ml-auto text-sm">
             <kbd className="bg-green-500 text-black px-1">:help</kbd> for commands
           </div>

@@ -11,38 +11,44 @@ export default function Connect({ mode }: Props) {
     {
       icon: Mail,
       label: 'Email',
-      value: 'hello@example.com',
-      href: 'mailto:hello@example.com'
+      value: 'wangtcalex@gmail.com',
+      href: 'mailto:wangtcalex@gmail.com'
     },
     {
       icon: Github,
       label: 'GitHub',
-      value: '@username',
-      href: 'https://github.com'
+      value: '@chang2000',
+      href: 'https://github.com/chang2000'
     },
-    {
-      icon: Twitter,
-      label: 'Twitter',
-      value: '@handle',
-      href: 'https://twitter.com'
-    },
+    // {
+    //   icon: Twitter,
+    //   label: 'Twitter',
+    //   value: '@handle',
+    //   href: 'https://twitter.com'
+    // },
     {
       icon: Linkedin,
       label: 'LinkedIn',
-      value: 'in/profile',
-      href: 'https://linkedin.com'
+      value: 'in/tianchangwang',
+      href: 'https://www.linkedin.com/in/tianchangwang/'
     },
     {
       icon: Globe,
       label: 'Website',
-      value: 'example.com',
-      href: 'https://example.com'
+      value: 'devtcwang.com',
+      href: 'https://devtcwang.com'
     }
   ];
 
   return (
     <div className="space-y-6">
       <h2 className="text-xl mb-4">Let's Connect</h2>
+      {/* <div className="mt-8 p-4 border border-green-800">
+        <h3 className="font-bold mb-2">Open to Opportunities</h3>
+        <p className="text-green-400">
+          Currently interested in SDE roles in the US.!
+        </p>
+      </div> */}
       
       <div className="grid gap-4">
         {links.map((link) => {
@@ -65,13 +71,6 @@ export default function Connect({ mode }: Props) {
         })}
       </div>
 
-      <div className="mt-8 p-4 border border-green-800">
-        <h3 className="font-bold mb-2">Open to Opportunities</h3>
-        <p className="text-green-400">
-          Currently interested in full-stack development roles and open source collaboration.
-          Feel free to reach out!
-        </p>
-      </div>
 
       <div className="text-sm text-green-600">
         {mode === 'NORMAL' ? (
