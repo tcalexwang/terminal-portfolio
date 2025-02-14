@@ -18,9 +18,9 @@ export default function Connect({ mode, onSelect }: Props) {
     },
     {
       icon: Github,
-      label: "GitHub",
-      value: "@chang2000",
-      href: "https://github.com/chang2000",
+      label: "GitHub (I was previously @chang2000)",
+      value: "@tcalexwang",
+      href: "https://github.com/tcalexwang",
     },
     // {
     //   icon: Twitter,

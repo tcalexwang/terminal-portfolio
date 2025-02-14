@@ -8,6 +8,7 @@ const projects = [
     description:
       "Keyforge is a API Key Management System that allows you to manage your API keys in a convenient and secure way.",
     tech: ["Next.js", "Nginx", "Payment Infrastructure"],
+    demo: "https://keyforge.alaria.studio",
   },
   {
     id: 995,

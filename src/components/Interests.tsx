@@ -1,30 +1,43 @@
 import React, { useState, useEffect } from "react";
-import { ChevronRight, BookOpen, Gamepad2, Coffee, Music } from "lucide-react";
+import {
+  ChevronRight,
+  Gamepad2,
+  Wrench,
+  Leaf,
+  Dumbbell,
+  Keyboard,
+} from "lucide-react";
 
 const interests = [
   {
     id: 1,
-    name: "Technical Reading",
-    description: 'Currently reading "Designing Data-Intensive Applications"',
-    icon: BookOpen,
-  },
-  {
-    id: 2,
-    name: "Game Development",
-    description: "Learning Unity and building small indie games",
+    name: "Web-based Games",
+    description: "Building interactive 3D experiences with Three.js",
     icon: Gamepad2,
   },
   {
+    id: 2,
+    name: "Frontend Tool Chain",
+    description: "Exploring and optimizing modern frontend development tools",
+    icon: Wrench,
+  },
+  {
     id: 3,
-    name: "Coffee Brewing",
-    description: "Exploring different brewing methods and beans",
-    icon: Coffee,
+    name: "Terrarium",
+    description: "Creating and maintaining miniature ecosystems",
+    icon: Leaf,
   },
   {
     id: 4,
-    name: "Music Production",
-    description: "Creating electronic music with Ableton Live",
-    icon: Music,
+    name: "Boxing",
+    description: "Training and practicing the sweet science",
+    icon: Dumbbell,
+  },
+  {
+    id: 5,
+    name: "Glove 80 Ergo Keyboard",
+    description: "Customizing and optimizing my ergonomic keyboard setup",
+    icon: Keyboard,
   },
 ];
 
