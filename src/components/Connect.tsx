@@ -1,12 +1,14 @@
-import React from "react";
-import { Mail, Github, Linkedin, Globe } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Mail, Github, Linkedin, Globe, ChevronRight } from "lucide-react";
 
 type Props = {
   mode: "NORMAL" | "COMMAND" | "INSERT";
   onSelect: (item: string) => void;
 };
 
-export default function Connect({ mode }: Props) {
+export default function Connect({ mode, onSelect }: Props) {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
   const links = [
     {
       icon: Mail,
@@ -40,6 +42,58 @@ export default function Connect({ mode }: Props) {
     },
   ];
 
+  useEffect(() => {
+    if (links.length > 0) {
+      onSelect(links[0].label);
+    }
+  }, [onSelect]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (mode !== "NORMAL") return;
+
+      switch (e.key.toLowerCase()) {
+        case "j":
+        case "arrowdown":
+          e.preventDefault();
+          setSelectedIndex((prev) => {
+            const newIndex = (prev + 1) % links.length;
+            onSelect(links[newIndex].label);
+            return newIndex;
+          });
+          break;
+        case "k":
+        case "arrowup":
+          e.preventDefault();
+          setSelectedIndex((prev) => {
+            const newIndex = prev === 0 ? links.length - 1 : prev - 1;
+            onSelect(links[newIndex].label);
+            return newIndex;
+          });
+          break;
+      }
+    };
+
+    const handleActivateSelection = () => {
+      const selectedLink = links[selectedIndex];
+      window.open(selectedLink.href, "_blank");
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener(
+      "activateSelection",
+      handleActivateSelection as EventListener
+    );
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener(
+        "activateSelection",
+        handleActivateSelection as EventListener
+      );
+    };
+  }, [mode, onSelect, selectedIndex, links]);
+
   return (
     <div className="space-y-6">
       <h2 className="text-xl mb-4">Let's Connect</h2>
@@ -51,29 +105,35 @@ export default function Connect({ mode }: Props) {
       </div> */}
 
       <div className="grid gap-4">
-        {links.map((link) => {
+        {links.map((link, index) => {
           const Icon = link.icon;
           return (
-            <a
+            <div
               key={link.label}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-4 p-4 border border-[#313244] hover:border-[#b4befe] hover:bg-[#b4befe] hover:bg-opacity-20 transition-colors"
+              className={`p-4 border ${
+                selectedIndex === index
+                  ? "border-[#b4befe] bg-[#b4befe] bg-opacity-20"
+                  : "border-[#313244]"
+              }`}
             >
-              <Icon className="w-5 h-5" />
-              <div>
-                <div className="font-bold">{link.label}</div>
-                <div className="text-[#fab387]">{link.value}</div>
+              <div className="flex items-center">
+                {selectedIndex === index && (
+                  <ChevronRight className="w-4 h-4 mr-2" />
+                )}
+                <Icon className="w-5 h-5 mr-4" />
+                <div>
+                  <div className="font-bold">{link.label}</div>
+                  <div className="text-[#fab387]">{link.value}</div>
+                </div>
               </div>
-            </a>
+            </div>
           );
         })}
       </div>
 
       <div className="text-sm text-[#a6e3a1]">
         {mode === "NORMAL"
-          ? "Click any link to connect"
+          ? "Use j/k to navigate • Enter to open link"
           : mode === "INSERT"
           ? "Press ESC to return to normal mode"
           : "Enter command"}

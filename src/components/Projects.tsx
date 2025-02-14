@@ -71,9 +71,27 @@ export default function Projects({ mode, onSelect }: Props) {
       }
     };
 
+    const handleActivateSelection = () => {
+      const selectedProject = projects[selectedIndex];
+      if (selectedProject.demo) {
+        window.open(selectedProject.demo, "_blank");
+      }
+    };
+
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [mode, onSelect]);
+    window.addEventListener(
+      "activateSelection",
+      handleActivateSelection as EventListener
+    );
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener(
+        "activateSelection",
+        handleActivateSelection as EventListener
+      );
+    };
+  }, [mode, onSelect, selectedIndex]);
 
   return (
     <div>
@@ -135,7 +153,7 @@ export default function Projects({ mode, onSelect }: Props) {
       </div>
       <div className="mt-4 text-sm text-[#a6e3a1]">
         {mode === "NORMAL"
-          ? "Use j/k to navigate • i to enter insert mode"
+          ? "Use j/k to navigate • Enter to open demo"
           : mode === "INSERT"
           ? "Press ESC to return to normal mode"
           : "Enter command"}

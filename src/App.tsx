@@ -68,14 +68,17 @@ function App() {
     },
     onNavigate: handleNavigate,
     onSelect: () => {
-      if (mode === "NORMAL") {
-        setMode("INSERT");
+      if (mode === "NORMAL" && selectedItem) {
+        const event = new CustomEvent("activateSelection", {
+          detail: { item: selectedItem },
+        });
+        window.dispatchEvent(event);
       }
     },
   });
 
   return (
-    <div className="min-h-screen bg-[#1e1e2e] text-[#cdd6f4] p-2 sm:p-4 font-mono pb-16">
+    <div className="min-h-screen bg-[#1e1e2e] text-[#cdd6f4] p-2 sm:p-4 terminal-text pb-16">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center gap-2 mb-4 border-b border-[#b4befe] pb-2">
           <Command className="w-6 h-6" />
