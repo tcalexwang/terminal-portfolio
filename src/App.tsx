@@ -9,6 +9,7 @@ import CommandLine from "./components/CommandLine";
 import StatusLine from "./components/StatusLine";
 import ExitPopup from "./components/ExitPopup";
 import Toast from "./components/Toast";
+import SEO from "./components/SEO";
 import { useKeybindings } from "./hooks/useKeybindings";
 
 const sections = ["me", "projects", "diggin", "connect", "help"] as const;
@@ -98,8 +99,46 @@ function App() {
     },
   });
 
+  const getSectionMeta = useCallback((section: Section) => {
+    switch (section) {
+      case "me":
+        return {
+          title: "About Me | Alex Wang",
+          description:
+            "Software Engineer at Alaria Studio, specializing in web development and creative technology. Based in Sunnyvale, CA.",
+        };
+      case "projects":
+        return {
+          title: "Projects | Alex Wang",
+          description:
+            "Explore my portfolio of projects including Keyforge, AI Mind, and other innovative web applications.",
+        };
+      case "diggin":
+        return {
+          title: "Interests | Alex Wang",
+          description:
+            "Discover my interests in web-based games, frontend tooling, terrariums, boxing, and ergonomic keyboards.",
+        };
+      case "connect":
+        return {
+          title: "Connect | Alex Wang",
+          description:
+            "Get in touch with me through email, GitHub, LinkedIn, or visit my website.",
+        };
+      case "help":
+        return {
+          title: "Help | Alex Wang",
+          description:
+            "Learn how to navigate this terminal-style portfolio with vim-like keybindings and commands.",
+        };
+      default:
+        return {};
+    }
+  }, []);
+
   return (
     <div className="h-screen overflow-hidden bg-[#1e1e2e] text-[#cdd6f4] p-2 sm:p-4 terminal-text">
+      <SEO {...getSectionMeta(activeSection)} section={activeSection} />
       <div className="max-w-6xl mx-auto h-full flex flex-col">
         <div
           className="flex items-center gap-2 mb-4 
