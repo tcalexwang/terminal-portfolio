@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { User, Code, Heart, Mail, Command, Menu } from "lucide-react";
 import About from "./components/About";
 import Projects from "./components/Projects";
