@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 
 type Props = {
   visible: boolean;
@@ -8,7 +8,13 @@ type Props = {
   onEscape: () => void;
 };
 
-export default function CommandLine({ visible, command, onChange, onSubmit, onEscape }: Props) {
+export default function CommandLine({
+  visible,
+  command,
+  onChange,
+  onSubmit,
+  onEscape,
+}: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -20,7 +26,7 @@ export default function CommandLine({ visible, command, onChange, onSubmit, onEs
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-12 sm:bottom-4 left-2 right-2 sm:left-4 sm:right-4 bg-black border border-green-500 p-2">
+    <div className="fixed bottom-12 sm:bottom-4 left-2 right-2 sm:left-4 sm:right-4 bg-[#1e1e2e] border border-[#b4befe] p-2">
       <div className="flex items-center gap-2 max-w-6xl mx-auto">
         <span>:</span>
         <input
@@ -29,13 +35,13 @@ export default function CommandLine({ visible, command, onChange, onSubmit, onEs
           value={command}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') {
+            if (e.key === "Enter") {
               onSubmit(command);
-            } else if (e.key === 'Escape') {
+            } else if (e.key === "Escape") {
               onEscape();
             }
           }}
-          className="flex-1 bg-transparent outline-none text-green-500"
+          className="flex-1 bg-transparent outline-none text-[#cdd6f4]"
           autoFocus
         />
       </div>

@@ -1,37 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import { ChevronRight, Github, ExternalLink } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { ChevronRight, ExternalLink } from "lucide-react";
 
 const projects = [
   {
     id: 1,
-    name: 'AI Video Enhancement(Backend)',
-    description: 'In an unicorn AI company',
-    tech: ['Golang', 'Docker', 'gRPC', 'MySQL'],
+    name: "AI Video Enhancement(Backend)",
+    description: "In an unicorn AI company",
+    tech: ["Golang", "Docker", "gRPC", "MySQL"],
   },
   {
     id: 2,
-    name: 'AI Image Dataset Annotation Tool',
-    description: 'In an unicorn AI company',
-    tech: ['React', 'CanvasJS'],
+    name: "AI Image Dataset Annotation Tool",
+    description: "In an unicorn AI company",
+    tech: ["React", "CanvasJS"],
   },
   {
     id: 3,
-    name: 'Yeah! A Dress-Up Game!',
-    description: 'A collab with Maria Cai, showcasing a series of illustration art',
-    tech: ['Next.js', 'TypeScript', 'TailwindCSS', 'PostgreSQL', 'Drizzle ORM'],
-    demo: 'https://yeah-dressup.vercel.app/'
+    name: "Yeah! A Dress-Up Game!",
+    description:
+      "A collab with Maria Cai, showcasing a series of illustration art",
+    tech: ["Next.js", "TypeScript", "TailwindCSS", "PostgreSQL", "Drizzle ORM"],
+    demo: "https://yeah-dressup.vercel.app/",
   },
   {
     id: 4,
-    name: 'Movie Blind Box',
-    description: 'A community-driven movie recommendation platform',
-    tech: ['Next.js', 'TypeScript', 'TailwindCSS', 'PostgreSQL', 'Prisma ORM'],
-    demo: 'https://movie-blindbox.us'
-  }
+    name: "Movie Blind Box",
+    description: "A community-driven movie recommendation platform",
+    tech: ["Next.js", "TypeScript", "TailwindCSS", "PostgreSQL", "Prisma ORM"],
+    demo: "https://movie-blindbox.us",
+  },
 ];
 
 type Props = {
-  mode: 'NORMAL' | 'COMMAND' | 'INSERT';
+  mode: "NORMAL" | "COMMAND" | "INSERT";
   onSelect: (name: string) => void;
 };
 
@@ -46,22 +47,22 @@ export default function Projects({ mode, onSelect }: Props) {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (mode !== 'NORMAL') return;
+      if (mode !== "NORMAL") return;
 
       switch (e.key.toLowerCase()) {
-        case 'j':
-        case 'arrowdown':
+        case "j":
+        case "arrowdown":
           e.preventDefault();
-          setSelectedIndex(prev => {
+          setSelectedIndex((prev) => {
             const newIndex = (prev + 1) % projects.length;
             onSelect(projects[newIndex].name);
             return newIndex;
           });
           break;
-        case 'k':
-        case 'arrowup':
+        case "k":
+        case "arrowup":
           e.preventDefault();
-          setSelectedIndex(prev => {
+          setSelectedIndex((prev) => {
             const newIndex = prev === 0 ? projects.length - 1 : prev - 1;
             onSelect(projects[newIndex].name);
             return newIndex;
@@ -70,8 +71,8 @@ export default function Projects({ mode, onSelect }: Props) {
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [mode, onSelect]);
 
   return (
@@ -82,9 +83,9 @@ export default function Projects({ mode, onSelect }: Props) {
           <div
             key={project.id}
             className={`p-4 border ${
-              selectedIndex === index 
-                ? 'border-green-500 bg-green-500 bg-opacity-20' 
-                : 'border-green-800'
+              selectedIndex === index
+                ? "border-[#b4befe] bg-[#b4befe] bg-opacity-20"
+                : "border-[#313244]"
             }`}
           >
             <div className="flex items-start">
@@ -95,7 +96,9 @@ export default function Projects({ mode, onSelect }: Props) {
                 <div className="flex justify-between items-start">
                   <div>
                     <h3 className="font-bold">{project.name}</h3>
-                    <p className="text-green-400 text-sm mt-1">{project.description}</p>
+                    <p className="text-[#fab387] text-sm mt-1">
+                      {project.description}
+                    </p>
                   </div>
                   <div className="flex gap-2">
                     {/* {project.github && (
@@ -104,7 +107,12 @@ export default function Projects({ mode, onSelect }: Props) {
                       </a>
                     )} */}
                     {project.demo && (
-                      <a href={project.demo} target="_blank" rel="noopener noreferrer" className="hover:text-green-300">
+                      <a
+                        href={project.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-[#89b4fa]"
+                      >
                         <ExternalLink className="w-4 h-4" />
                       </a>
                     )}
@@ -112,7 +120,10 @@ export default function Projects({ mode, onSelect }: Props) {
                 </div>
                 <div className="flex gap-2 mt-2">
                   {project.tech.map((tech) => (
-                    <span key={tech} className="text-xs px-2 py-1 bg-green-900 rounded">
+                    <span
+                      key={tech}
+                      className="text-xs px-2 py-1 bg-[#313244] rounded"
+                    >
                       {tech}
                     </span>
                   ))}
@@ -122,14 +133,12 @@ export default function Projects({ mode, onSelect }: Props) {
           </div>
         ))}
       </div>
-      <div className="mt-4 text-sm text-green-600">
-        {mode === 'NORMAL' ? (
-          'Use j/k to navigate • i to enter insert mode'
-        ) : mode === 'INSERT' ? (
-          'Press ESC to return to normal mode'
-        ) : (
-          'Enter command'
-        )}
+      <div className="mt-4 text-sm text-[#a6e3a1]">
+        {mode === "NORMAL"
+          ? "Use j/k to navigate • i to enter insert mode"
+          : mode === "INSERT"
+          ? "Press ESC to return to normal mode"
+          : "Enter command"}
       </div>
     </div>
   );
