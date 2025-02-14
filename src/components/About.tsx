@@ -142,7 +142,7 @@ export default function About({ mode }: Props) {
           >
             Keyforge
           </a>
-          , a secure and handy place to put your api secrets.
+          , a local-first, secure and handy place to put your api secrets.
         </p>
 
         <p className="leading-relaxed max-w-2xl">always delivers</p>
