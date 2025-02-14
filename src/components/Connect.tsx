@@ -114,7 +114,12 @@ export default function Connect({ mode, onSelect }: Props) {
                 selectedIndex === index
                   ? "border-[#b4befe] bg-[#b4befe] bg-opacity-20"
                   : "border-[#313244]"
-              }`}
+              } cursor-pointer hover:border-[#b4befe] hover:bg-[#b4befe] hover:bg-opacity-10 transition-colors`}
+              onClick={() => {
+                setSelectedIndex(index);
+                onSelect(link.label);
+                window.open(link.href, "_blank");
+              }}
             >
               <div className="flex items-center">
                 {selectedIndex === index && (

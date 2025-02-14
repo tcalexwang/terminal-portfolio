@@ -3,19 +3,40 @@ import { ChevronRight, ExternalLink } from "lucide-react";
 
 const projects = [
   {
-    id: 1,
+    id: 991,
+    name: "Keyforge",
+    description:
+      "Keyforge is a API Key Management System that allows you to manage your API keys in a convenient and secure way.",
+    tech: ["Next.js", "Nginx", "Payment Infrastructure"],
+  },
+  {
+    id: 995,
+    name: "Tech Consulting Business",
+    description:
+      "I run a tech consulting business, helping companies with their tech needs.",
+    tech: [],
+  },
+  {
+    id: 994,
+    name: "AI Mind",
+    description:
+      "A digital representation of any minds, a platform for providing chatbots with long-term memory and personaliities.",
+    tech: ["Next.js", "Upstash", "Self hosted LLM", "Prisma ORM"],
+  },
+  {
+    id: 996,
     name: "AI Video Enhancement(Backend)",
     description: "In an unicorn AI company",
     tech: ["Golang", "Docker", "gRPC", "MySQL"],
   },
   {
-    id: 2,
+    id: 997,
     name: "AI Image Dataset Annotation Tool",
     description: "In an unicorn AI company",
     tech: ["React", "CanvasJS"],
   },
   {
-    id: 3,
+    id: 998,
     name: "Yeah! A Dress-Up Game!",
     description:
       "A collab with Maria Cai, showcasing a series of illustration art",
@@ -23,7 +44,7 @@ const projects = [
     demo: "https://yeah-dressup.vercel.app/",
   },
   {
-    id: 4,
+    id: 999,
     name: "Movie Blind Box",
     description: "A community-driven movie recommendation platform",
     tech: ["Next.js", "TypeScript", "TailwindCSS", "PostgreSQL", "Prisma ORM"],
@@ -100,11 +121,18 @@ export default function Projects({ mode, onSelect }: Props) {
         {projects.map((project, index) => (
           <div
             key={project.id}
-            className={`p-3 sm:p-4 border ${
+            className={`p-4 border ${
               selectedIndex === index
                 ? "border-[#b4befe] bg-[#b4befe] bg-opacity-20"
                 : "border-[#313244]"
-            }`}
+            } cursor-pointer hover:border-[#b4befe] hover:bg-[#b4befe] hover:bg-opacity-10 transition-colors`}
+            onClick={() => {
+              setSelectedIndex(index);
+              onSelect(project.name);
+              if (project.demo) {
+                window.open(project.demo, "_blank");
+              }
+            }}
           >
             <div className="flex items-start gap-2">
               {selectedIndex === index && (
