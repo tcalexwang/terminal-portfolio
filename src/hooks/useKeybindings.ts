@@ -63,7 +63,11 @@ export function useKeybindings({
           break;
       }
     } else if (mode === 'COMMAND') {
-      if (e.key === 'Escape') {
+      // In COMMAND mode, prevent Enter from triggering selection
+      if (e.key === 'Enter') {
+        e.preventDefault(); // Prevent any default Enter behavior
+        e.stopPropagation(); // Stop event from bubbling up
+      } else if (e.key === 'Escape') {
         onEscape();
         onModeChange('NORMAL');
       }

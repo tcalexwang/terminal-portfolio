@@ -94,9 +94,11 @@ export default function Projects({ mode, onSelect }: Props) {
     };
 
     const handleActivateSelection = () => {
-      const selectedProject = projects[selectedIndex];
-      if (selectedProject.demo) {
-        window.open(selectedProject.demo, "_blank");
+      if (mode === "NORMAL") {
+        const selectedProject = projects[selectedIndex];
+        if (selectedProject.demo) {
+          window.open(selectedProject.demo, "_blank");
+        }
       }
     };
 

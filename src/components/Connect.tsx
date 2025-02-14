@@ -75,8 +75,10 @@ export default function Connect({ mode, onSelect }: Props) {
     };
 
     const handleActivateSelection = () => {
-      const selectedLink = links[selectedIndex];
-      window.open(selectedLink.href, "_blank");
+      if (mode === "NORMAL") {
+        const selectedLink = links[selectedIndex];
+        window.open(selectedLink.href, "_blank");
+      }
     };
 
     window.addEventListener("keydown", handleKeyDown);

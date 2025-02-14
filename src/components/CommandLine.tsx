@@ -26,8 +26,8 @@ export default function CommandLine({
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-12 sm:bottom-4 left-2 right-2 sm:left-4 sm:right-4 bg-[#1e1e2e] border border-[#b4befe] p-2">
-      <div className="flex items-center gap-2 max-w-6xl mx-auto">
+    <div className="fixed bottom-0 left-0 right-0 bg-[#1e1e2e] border-t border-[#b4befe] p-2">
+      <div className="max-w-6xl mx-auto flex items-center gap-2">
         <span>:</span>
         <input
           ref={inputRef}

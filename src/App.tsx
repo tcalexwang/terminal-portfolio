@@ -8,6 +8,7 @@ import Navigation from "./components/Navigation";
 import CommandLine from "./components/CommandLine";
 import StatusLine from "./components/StatusLine";
 import ExitPopup from "./components/ExitPopup";
+import Toast from "./components/Toast";
 import { useKeybindings } from "./hooks/useKeybindings";
 
 const sections = ["me", "projects", "diggin", "connect", "help"] as const;
@@ -20,6 +21,7 @@ function App() {
   const [selectedItem, setSelectedItem] = useState<string>();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showExitConfirm, setShowExitConfirm] = useState(false);
+  const [showToast, setShowToast] = useState(true);
 
   const handleCommand = useCallback((cmd: string) => {
     const normalizedCmd = cmd.toLowerCase().trim();
@@ -93,7 +95,6 @@ function App() {
           className="flex items-center gap-2 mb-4 
         pb-2"
         >
-          <Command className="w-6 h-6" />
           <h1 className="text-xl">~/alex-wang</h1>
           <div className="hidden sm:block ml-auto text-sm">
             <kbd className="bg-[#b4befe] text-[#1e1e2e] px-1">:help</kbd> for
@@ -211,6 +212,14 @@ function App() {
           <ExitPopup
             onConfirm={handleExit}
             onCancel={() => setShowExitConfirm(false)}
+          />
+        )}
+
+        {showToast && (
+          <Toast
+            message="This site uses Vim-like keymaps. Consider disabling Vimium/Vimium C extension for the best experience."
+            duration={8000}
+            onClose={() => setShowToast(false)}
           />
         )}
       </div>
