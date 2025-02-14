@@ -94,36 +94,31 @@ export default function Projects({ mode, onSelect }: Props) {
   }, [mode, onSelect, selectedIndex]);
 
   return (
-    <div>
+    <div className="h-full flex flex-col overflow-auto">
       <h2 className="text-xl mb-4">Projects</h2>
-      <div className="space-y-2">
+      <div className="space-y-2 flex-1">
         {projects.map((project, index) => (
           <div
             key={project.id}
-            className={`p-4 border ${
+            className={`p-3 sm:p-4 border ${
               selectedIndex === index
                 ? "border-[#b4befe] bg-[#b4befe] bg-opacity-20"
                 : "border-[#313244]"
             }`}
           >
-            <div className="flex items-start">
+            <div className="flex items-start gap-2">
               {selectedIndex === index && (
-                <ChevronRight className="w-4 h-4 mr-2 mt-1" />
+                <ChevronRight className="w-4 h-4 mt-1 shrink-0" />
               )}
-              <div className="flex-1">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="font-bold">{project.name}</h3>
-                    <p className="text-[#fab387] text-sm mt-1">
+              <div className="flex-1 min-w-0">
+                <div className="flex justify-between items-start gap-2">
+                  <div className="min-w-0">
+                    <h3 className="font-bold truncate">{project.name}</h3>
+                    <p className="text-[#fab387] text-sm mt-1 line-clamp-2">
                       {project.description}
                     </p>
                   </div>
-                  <div className="flex gap-2">
-                    {/* {project.github && (
-                      <a href={project.github} target="_blank" rel="noopener noreferrer" className="hover:text-green-300">
-                        <Github className="w-4 h-4" />
-                      </a>
-                    )} */}
+                  <div className="flex gap-2 shrink-0">
                     {project.demo && (
                       <a
                         href={project.demo}
@@ -136,11 +131,11 @@ export default function Projects({ mode, onSelect }: Props) {
                     )}
                   </div>
                 </div>
-                <div className="flex gap-2 mt-2">
+                <div className="flex flex-wrap gap-1.5 mt-2">
                   {project.tech.map((tech) => (
                     <span
                       key={tech}
-                      className="text-xs px-2 py-1 bg-[#313244] rounded"
+                      className="text-xs px-1.5 py-0.5 bg-[#313244] rounded whitespace-nowrap"
                     >
                       {tech}
                     </span>
