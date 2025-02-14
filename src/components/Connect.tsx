@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Mail, Github, Linkedin, Globe, ChevronRight } from "lucide-react";
 
 type Props = {
@@ -8,6 +8,7 @@ type Props = {
 
 export default function Connect({ mode, onSelect }: Props) {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const links = [
     {
@@ -52,25 +53,32 @@ export default function Connect({ mode, onSelect }: Props) {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (mode !== "NORMAL") return;
 
-      switch (e.key.toLowerCase()) {
-        case "j":
-        case "arrowdown":
-          e.preventDefault();
-          setSelectedIndex((prev) => {
-            const newIndex = (prev + 1) % links.length;
-            onSelect(links[newIndex].label);
-            return newIndex;
-          });
-          break;
-        case "k":
-        case "arrowup":
-          e.preventDefault();
-          setSelectedIndex((prev) => {
-            const newIndex = prev === 0 ? links.length - 1 : prev - 1;
-            onSelect(links[newIndex].label);
-            return newIndex;
-          });
-          break;
+      if (e.key === "j" || e.key === "k") {
+        e.preventDefault();
+        const direction = e.key === "j" ? 1 : -1;
+        setSelectedIndex((prev) => {
+          const newIndex = Math.max(
+            0,
+            Math.min(links.length - 1, prev + direction)
+          );
+
+          // Scroll the selected item into view
+          const container = containerRef.current;
+          const selectedElement = container?.children[newIndex] as HTMLElement;
+          if (container && selectedElement) {
+            const containerRect = container.getBoundingClientRect();
+            const elementRect = selectedElement.getBoundingClientRect();
+
+            if (elementRect.bottom > containerRect.bottom) {
+              container.scrollTop += elementRect.bottom - containerRect.bottom;
+            } else if (elementRect.top < containerRect.top) {
+              container.scrollTop += elementRect.top - containerRect.top;
+            }
+          }
+
+          onSelect(links[newIndex].label);
+          return newIndex;
+        });
       }
     };
 
@@ -94,10 +102,10 @@ export default function Connect({ mode, onSelect }: Props) {
         handleActivateSelection as EventListener
       );
     };
-  }, [mode, onSelect, selectedIndex, links]);
+  }, [mode, onSelect]);
 
   return (
-    <div className="space-y-6">
+    <div className="h-full flex flex-col">
       <h2 className="text-xl mb-4">Let's Connect</h2>
       {/* <div className="mt-8 p-4 border border-green-800">
         <h3 className="font-bold mb-2">Open to Opportunities</h3>
@@ -106,7 +114,10 @@ export default function Connect({ mode, onSelect }: Props) {
         </p>
       </div> */}
 
-      <div className="grid gap-4">
+      <div
+        ref={containerRef}
+        className="flex-1 overflow-y-auto pr-2 space-y-2 scrollbar-thin scrollbar-thumb-[#313244] scrollbar-track-transparent"
+      >
         {links.map((link, index) => {
           const Icon = link.icon;
           return (
@@ -138,7 +149,7 @@ export default function Connect({ mode, onSelect }: Props) {
         })}
       </div>
 
-      <div className="text-sm text-[#a6e3a1]">
+      <div className="mt-4 text-sm text-[#a6e3a1]">
         {mode === "NORMAL"
           ? "Use j/k to navigate • Enter to open link"
           : mode === "INSERT"

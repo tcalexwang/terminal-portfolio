@@ -22,6 +22,7 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showExitConfirm, setShowExitConfirm] = useState(false);
   const [showToast, setShowToast] = useState(true);
+  const [bookmarkToast, setBookmarkToast] = useState<string | null>(null);
 
   const handleCommand = useCallback((cmd: string) => {
     const normalizedCmd = cmd.toLowerCase().trim();
@@ -29,6 +30,15 @@ function App() {
       case "q":
       case "quit":
         setShowExitConfirm(true);
+        break;
+      case "w":
+        // Show bookmark shortcut hint
+        setBookmarkToast(
+          `Press ${
+            navigator.platform.toLowerCase().includes("mac") ? "⌘" : "Ctrl"
+          }+D to bookmark this page`
+        );
+        setTimeout(() => setBookmarkToast(null), 4000);
         break;
       case "me":
       case "projects":
@@ -89,8 +99,8 @@ function App() {
   });
 
   return (
-    <div className="min-h-screen bg-[#1e1e2e] text-[#cdd6f4] p-2 sm:p-4 terminal-text pb-16">
-      <div className="max-w-6xl mx-auto">
+    <div className="h-screen overflow-hidden bg-[#1e1e2e] text-[#cdd6f4] p-2 sm:p-4 terminal-text">
+      <div className="max-w-6xl mx-auto h-full flex flex-col">
         <div
           className="flex items-center gap-2 mb-4 
         pb-2"
@@ -122,7 +132,7 @@ function App() {
           onSectionClick={() => setIsMenuOpen(false)}
         />
 
-        <main className="mt-4 border border-[#b4befe] p-2 sm:p-4 min-h-[60vh]">
+        <main className="mt-4 border border-[#b4befe] p-2 sm:p-4 flex-1 overflow-hidden mb-8">
           {activeSection === "me" && (
             <About mode={mode} onSelect={setSelectedItem} />
           )}
@@ -183,6 +193,7 @@ function App() {
                 <li>:diggin - What I'm into</li>
                 <li>:connect - Get in touch</li>
                 <li>:help - Show this help</li>
+                <li>:w - Save current section to bookmarks</li>
                 <li>:q or :quit - Exit</li>
               </ul>
             </div>
@@ -218,8 +229,16 @@ function App() {
         {showToast && (
           <Toast
             message="This site uses Vim-like keymaps. Consider disabling Vimium/Vimium C extension for the best experience."
-            duration={8000}
+            duration={4000}
             onClose={() => setShowToast(false)}
+          />
+        )}
+
+        {bookmarkToast && (
+          <Toast
+            message={bookmarkToast}
+            duration={4000}
+            onClose={() => setBookmarkToast(null)}
           />
         )}
       </div>

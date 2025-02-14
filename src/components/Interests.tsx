@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   ChevronRight,
   Gamepad2,
@@ -48,6 +48,7 @@ type Props = {
 
 export default function Interests({ mode, onSelect }: Props) {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (interests.length > 0) {
@@ -59,25 +60,32 @@ export default function Interests({ mode, onSelect }: Props) {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (mode !== "NORMAL") return;
 
-      switch (e.key.toLowerCase()) {
-        case "j":
-        case "arrowdown":
-          e.preventDefault();
-          setSelectedIndex((prev) => {
-            const newIndex = (prev + 1) % interests.length;
-            onSelect(interests[newIndex].name);
-            return newIndex;
-          });
-          break;
-        case "k":
-        case "arrowup":
-          e.preventDefault();
-          setSelectedIndex((prev) => {
-            const newIndex = prev === 0 ? interests.length - 1 : prev - 1;
-            onSelect(interests[newIndex].name);
-            return newIndex;
-          });
-          break;
+      if (e.key === "j" || e.key === "k") {
+        e.preventDefault();
+        const direction = e.key === "j" ? 1 : -1;
+        setSelectedIndex((prev) => {
+          const newIndex = Math.max(
+            0,
+            Math.min(interests.length - 1, prev + direction)
+          );
+
+          // Scroll the selected item into view
+          const container = containerRef.current;
+          const selectedElement = container?.children[newIndex] as HTMLElement;
+          if (container && selectedElement) {
+            const containerRect = container.getBoundingClientRect();
+            const elementRect = selectedElement.getBoundingClientRect();
+
+            if (elementRect.bottom > containerRect.bottom) {
+              container.scrollTop += elementRect.bottom - containerRect.bottom;
+            } else if (elementRect.top < containerRect.top) {
+              container.scrollTop += elementRect.top - containerRect.top;
+            }
+          }
+
+          onSelect(interests[newIndex].name);
+          return newIndex;
+        });
       }
     };
 
@@ -86,9 +94,12 @@ export default function Interests({ mode, onSelect }: Props) {
   }, [mode, onSelect]);
 
   return (
-    <div>
+    <div className="h-full flex flex-col">
       <h2 className="text-xl mb-4">What I'm Into</h2>
-      <div className="space-y-2">
+      <div
+        ref={containerRef}
+        className="flex-1 overflow-y-auto pr-2 space-y-2 scrollbar-thin scrollbar-thumb-[#313244] scrollbar-track-transparent"
+      >
         {interests.map((interest, index) => {
           const Icon = interest.icon;
           return (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ChevronRight, ExternalLink } from "lucide-react";
 
 const projects = [
@@ -60,6 +60,7 @@ type Props = {
 
 export default function Projects({ mode, onSelect }: Props) {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (projects.length > 0) {
@@ -71,25 +72,32 @@ export default function Projects({ mode, onSelect }: Props) {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (mode !== "NORMAL") return;
 
-      switch (e.key.toLowerCase()) {
-        case "j":
-        case "arrowdown":
-          e.preventDefault();
-          setSelectedIndex((prev) => {
-            const newIndex = (prev + 1) % projects.length;
-            onSelect(projects[newIndex].name);
-            return newIndex;
-          });
-          break;
-        case "k":
-        case "arrowup":
-          e.preventDefault();
-          setSelectedIndex((prev) => {
-            const newIndex = prev === 0 ? projects.length - 1 : prev - 1;
-            onSelect(projects[newIndex].name);
-            return newIndex;
-          });
-          break;
+      if (e.key === "j" || e.key === "k") {
+        e.preventDefault();
+        const direction = e.key === "j" ? 1 : -1;
+        setSelectedIndex((prev) => {
+          const newIndex = Math.max(
+            0,
+            Math.min(projects.length - 1, prev + direction)
+          );
+
+          // Scroll the selected item into view
+          const container = containerRef.current;
+          const selectedElement = container?.children[newIndex] as HTMLElement;
+          if (container && selectedElement) {
+            const containerRect = container.getBoundingClientRect();
+            const elementRect = selectedElement.getBoundingClientRect();
+
+            if (elementRect.bottom > containerRect.bottom) {
+              container.scrollTop += elementRect.bottom - containerRect.bottom;
+            } else if (elementRect.top < containerRect.top) {
+              container.scrollTop += elementRect.top - containerRect.top;
+            }
+          }
+
+          onSelect(projects[newIndex].name);
+          return newIndex;
+        });
       }
     };
 
@@ -115,12 +123,15 @@ export default function Projects({ mode, onSelect }: Props) {
         handleActivateSelection as EventListener
       );
     };
-  }, [mode, onSelect, selectedIndex]);
+  }, [mode, onSelect]);
 
   return (
-    <div className="h-full flex flex-col overflow-auto">
+    <div className="h-full flex flex-col">
       <h2 className="text-xl mb-4">Projects</h2>
-      <div className="space-y-2 flex-1">
+      <div
+        ref={containerRef}
+        className="flex-1 overflow-y-auto pr-2 space-y-2 scrollbar-thin scrollbar-thumb-[#313244] scrollbar-track-transparent"
+      >
         {projects.map((project, index) => (
           <div
             key={project.id}
@@ -144,7 +155,12 @@ export default function Projects({ mode, onSelect }: Props) {
               <div className="flex-1 min-w-0">
                 <div className="flex justify-between items-start gap-2">
                   <div className="min-w-0">
-                    <h3 className="font-bold truncate">{project.name}</h3>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-[#b4befe] font-mono">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <h3 className="font-bold truncate">{project.name}</h3>
+                    </div>
                     <p className="text-[#fab387] text-sm mt-1 line-clamp-2">
                       {project.description}
                     </p>
