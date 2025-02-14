@@ -7,6 +7,7 @@ import Connect from "./components/Connect";
 import Navigation from "./components/Navigation";
 import CommandLine from "./components/CommandLine";
 import StatusLine from "./components/StatusLine";
+import ExitPopup from "./components/ExitPopup";
 import { useKeybindings } from "./hooks/useKeybindings";
 
 const sections = ["me", "projects", "diggin", "connect", "help"] as const;
@@ -18,13 +19,14 @@ function App() {
   const [command, setCommand] = useState("");
   const [selectedItem, setSelectedItem] = useState<string>();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showExitConfirm, setShowExitConfirm] = useState(false);
 
   const handleCommand = useCallback((cmd: string) => {
     const normalizedCmd = cmd.toLowerCase().trim();
     switch (normalizedCmd) {
       case "q":
       case "quit":
-        alert("Thanks for visiting!");
+        setShowExitConfirm(true);
         break;
       case "me":
       case "projects":
@@ -37,6 +39,13 @@ function App() {
     }
     setMode("NORMAL");
     setCommand("");
+  }, []);
+
+  const handleExit = useCallback(() => {
+    // This will close the current tab
+    window.close();
+    // As a fallback, we can redirect to a different page
+    window.location.href = "about:blank";
   }, []);
 
   const handleNavigate = useCallback(
@@ -80,9 +89,12 @@ function App() {
   return (
     <div className="min-h-screen bg-[#1e1e2e] text-[#cdd6f4] p-2 sm:p-4 terminal-text pb-16">
       <div className="max-w-6xl mx-auto">
-        <div className="flex items-center gap-2 mb-4 border-b border-[#b4befe] pb-2">
+        <div
+          className="flex items-center gap-2 mb-4 
+        pb-2"
+        >
           <Command className="w-6 h-6" />
-          <h1 className="text-xl">~/alex-wang-portfolio</h1>
+          <h1 className="text-xl">~/alex-wang</h1>
           <div className="hidden sm:block ml-auto text-sm">
             <kbd className="bg-[#b4befe] text-[#1e1e2e] px-1">:help</kbd> for
             commands
@@ -194,6 +206,13 @@ function App() {
           activeSection={activeSection}
           selectedItem={selectedItem}
         />
+
+        {showExitConfirm && (
+          <ExitPopup
+            onConfirm={handleExit}
+            onCancel={() => setShowExitConfirm(false)}
+          />
+        )}
       </div>
     </div>
   );
